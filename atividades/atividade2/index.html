@@ -1,0 +1,91 @@
+<!--Alunos: Caio Gomes Alcântara Glória (763989) e Samuel Luiz da Cunha (762496)-->
+<!--Atividade 2 - Desenvolvimento de um mapa com camadas e widgets -->
+<!--Professor Sandro Laudares-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>Compass widget | Sample | ArcGIS Maps SDK for JavaScript 4.29</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+    <script src="https://js.arcgis.com/4.29/"></script>
+    <script>
+        require([
+            "esri/views/MapView",
+            "esri/WebMap",
+            "esri/widgets/BasemapGallery",
+            "esri/widgets/CoordinateConversion",
+            "esri/widgets/Search",
+            "esri/widgets/Compass", 
+            "esri/widgets/Legend", 
+            "esri/widgets/Expand" 
+        ], (MapView, WebMap, BasemapGallery, CoordinateConversion, Search, Compass, Legend, Expand) => {
+
+            const webmap = new WebMap({
+                portalItem: {
+                    id: "d5d855304b4b49fd896bfe1f48f79d04"
+                }
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: webmap
+            });
+
+            
+            const legendExpand = new Expand({
+                content: new Legend({
+                    view: view,
+                    style: "card" 
+                }),
+                view: view,
+                expanded: true
+            });
+
+            view.ui.add(legendExpand, "bottom-right"); 
+
+            view.when(() => {
+                const ccWidget = new CoordinateConversion({
+                    view: view
+                });
+
+                view.ui.add(ccWidget, "bottom-left");
+
+                const searchWidget = new Search({
+                    view: view
+                });
+
+                view.ui.add(searchWidget, {
+                    position: "top-right"
+                });
+
+                
+                const compassWidget = new Compass({
+                    view: view
+                });
+
+                
+                view.ui.add(compassWidget, "top-left");
+            });
+        });
+    </script>
+</head>
+
+<body class="calcite">
+<div id="viewDiv"></div>
+</body>
+</html>

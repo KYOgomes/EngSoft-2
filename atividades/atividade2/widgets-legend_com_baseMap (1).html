@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>Legend widget | Sample | ArcGIS Maps SDK for JavaScript 4.29</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
+
+    <script src="https://js.arcgis.com/4.29/"></script>
+    <script>
+      require(["esri/views/MapView", "esri/widgets/Legend", "esri/WebMap", "esri/widgets/BasemapGallery"],
+      (MapView, Legend, WebMap, BasemapGallery ) => {
+        const webmap = new WebMap({
+          portalItem: {
+            // autocasts as new PortalItem()
+            id: "f627660a404e41d1b0291a555dcf6a82"
+          }
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: webmap
+        });
+
+        view.when(() => {
+          // get the first layer in the collection of operational layers in the WebMap
+          // when the resources in the MapView have loaded.
+          const featureLayer = webmap.layers.getItemAt(0);
+
+          const legend = new Legend({
+            view: view,
+            layerInfos: [
+              {
+                layer: featureLayer,
+                title: "Belo Horizonte"
+              }
+            ]
+          });
+          
+         const basemapGallery = new BasemapGallery({
+          view: view
+        });
+
+        // Add the widget to the top-right corner of the view
+        view.ui.add(basemapGallery, {
+          position: "top-right"
+        });
+
+          // Add widget to the bottom right corner of the view
+          view.ui.add(legend, "bottom-right");
+        });
+      });
+    </script>
+  </head>
+
+  <body class="calcite">
+    <div id="viewDiv"></div>
+  </body>
+</html>

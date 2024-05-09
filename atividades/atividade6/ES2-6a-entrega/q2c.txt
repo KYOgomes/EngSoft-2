@@ -1,0 +1,1 @@
+Ambos os adaptadores implementados respeitam o princípio "aberto/fechado"porque são capazes de estender o comportamento existente sem modificar o código existente.
